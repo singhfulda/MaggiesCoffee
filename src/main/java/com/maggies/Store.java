@@ -40,7 +40,18 @@ public class Store {
     }
 
     public void printOrder(Order order) {
+        StringBuilder sb = new StringBuilder()
+                .append("Maggie´s Coffee Corner,\n")
+                .append("Order \n")
+                .append("########################\n");
+        order.getProducts().forEach(product -> sb.append(product.getName() + "- " + product.getPrice() + " CHF\n"));
+        order.getExtras().forEach(extras -> sb.append(extras.getName() + "- " + extras.getPrice() + " CHF\n"));
+        sb.append("Total: " + order.getTotal() + " CHF\n");
+        sb.append("########################\n");
+        sb.append("Thanks for your visit\n");
 
+        String str = sb.toString();
+        System.out.print(str);
 
     }
 
