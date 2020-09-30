@@ -1,0 +1,2 @@
+# MaggiesCoffee
+initial tests description
