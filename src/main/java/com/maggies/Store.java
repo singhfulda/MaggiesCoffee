@@ -18,14 +18,14 @@ public class Store {
     }
 
     private void initiliazeMenu() {
-        products.put("small Coffee", new Product("small Coffee", 2.50, Product.ProductType.BEVERAGE));
-        products.put("medium Coffee", new Product("small Coffee", 3.50, Product.ProductType.BEVERAGE));
-        products.put("large Coffee", new Product("small Coffee", 4.00, Product.ProductType.BEVERAGE));
-        products.put("Bacon Roll", new Product("small Coffee", 3.25, Product.ProductType.SNACK));
-        products.put("Freshly squeezed orange juice", new Product("small Coffee", 4.35, Product.ProductType.BEVERAGE));
-        extras.put("Cold milk", new Extras("small Coffee", 0.30));
-        extras.put("Foamed milk",  new Extras("small Coffee", 0.50));
-        extras.put("Special roast coffee",  new Extras("small Coffee", 1.20));
+        products.put("small coffee", new Product("small coffee", 2.50, Product.ProductType.BEVERAGE));
+        products.put("medium coffee", new Product("medium coffee", 3.50, Product.ProductType.BEVERAGE));
+        products.put("large coffee", new Product("large coffee", 4.00, Product.ProductType.BEVERAGE));
+        products.put("bacon roll", new Product("bacon roll", 3.25, Product.ProductType.SNACK));
+        products.put("freshly squeezed orange juice", new Product("freshly squeezed orange juice", 4.35, Product.ProductType.BEVERAGE));
+        extras.put("cold milk", new Extras("cold milk", 0.30));
+        extras.put("foamed milk",  new Extras("foamed milk", 0.50));
+        extras.put("special roast",  new Extras("special roast coffee", 1.20));
 
     }
 
@@ -33,30 +33,45 @@ public class Store {
         String str[] = orderString.split(",");
         for (String productWithExtras : str) {
             System.out.println(productWithExtras);
-            addProductsAndExtrasToOrder(productWithExtras);
+            addProductsAndExtrasToOrder(productWithExtras.trim());
         }
         checkOrderForBonus(order);
         printOrder(order);
     }
 
-    private void printOrder(Order order) {
+    public void printOrder(Order order) {
+
+
     }
 
 
     private void checkOrderForBonus(Order order) {
+        boolean snackIsPresent = order.getProducts().stream().anyMatch(product -> product.getType() == Product.ProductType.SNACK);
+        if(snackIsPresent) {
+            List<Extras> extrasList  = order.getExtras();
+            if(extrasList.size()>0) {
+                order.setTotal(order.getTotal()- extrasList.get(0).getPrice());
+            }
+
+        }
     }
 
 
     private void addProductsAndExtrasToOrder(String product) {
         if(product.contains("with")) {
             String subOrders[] = product.split(" with ");
-            order.addProduct(products.get(subOrders[0]));
-            order.addExtras(extras.get(subOrders[1]));
+            if(products.containsKey(subOrders[0])) {
+                order.addProduct(products.get(subOrders[0]));
+            }
+            if(extras.containsKey(subOrders[1].trim())) {
+                order.addExtras(extras.get(subOrders[1].trim()));
+            }
 
         } else {
-           order.addProduct(products.get(product));
+            if(products.containsKey(product)) {
+                order.addProduct(products.get(product));
+            }
         }
-
 
     }
 
@@ -72,5 +87,33 @@ public class Store {
 
     public void setCustomersCoffeeCount(Map<String, Integer> customersCoffeeCount) {
         this.customersCoffeeCount = customersCoffeeCount;
+    }
+
+    public Map<String, Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Map<String, Product> products) {
+        this.products = products;
+    }
+
+    public Map<String, Extras> getExtras() {
+        return extras;
+    }
+
+    public void setExtras(Map<String, Extras> extras) {
+        this.extras = extras;
+    }
+
+    public Map<String, Integer> getCustomersCoffeeCount() {
+        return customersCoffeeCount;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

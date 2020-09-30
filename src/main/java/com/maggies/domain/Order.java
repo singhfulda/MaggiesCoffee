@@ -27,6 +27,7 @@ public class Order {
     }
     public void addProduct(Product product) {
         this.products.add(product);
+        this.total += product.getPrice();
     }
 
     public void addExtras(Extras extras) {
