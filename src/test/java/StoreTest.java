@@ -23,7 +23,6 @@ public class StoreTest {
     public void testWhenStoreStartsItShouldAskForOrder() {
         // Given
         Store store = new Store();
-        Order InitialOrder = store.getOrder();
 
         // When
         store.processOrder("large coffee with cold milk, small coffee with special roast, bacon roll");

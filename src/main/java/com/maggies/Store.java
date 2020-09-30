@@ -32,27 +32,40 @@ public class Store {
     public void processOrder(String orderString) {
         String str[] = orderString.split(",");
         for (String productWithExtras : str) {
-            System.out.println(productWithExtras);
             addProductsAndExtrasToOrder(productWithExtras.trim());
         }
         checkOrderForBonus(order);
         printOrder(order);
     }
 
-    public void printOrder(Order order) {
+    private void printOrder(Order order) {
         StringBuilder sb = new StringBuilder()
                 .append("Maggie´s Coffee Corner,\n")
                 .append("Order \n")
                 .append("########################\n");
-        order.getProducts().forEach(product -> sb.append(product.getName() + "- " + product.getPrice() + " CHF\n"));
-        order.getExtras().forEach(extras -> sb.append(extras.getName() + "- " + extras.getPrice() + " CHF\n"));
+        order.getProducts().forEach(product -> sb.append(product.getName() + ":  " + product.getPrice() + " CHF\n"));
+        order.getExtras().forEach(extras -> sb.append(extras.getName() + ":  " + extras.getPrice() + " CHF\n"));
+        // discounted extras
+        if( order.getDiscountedExtras() !=  null ) {
+            sb.append("Discount " + order.getDiscountedExtras().getName() +": -" + order.getDiscountedExtras().getPrice() + "\n");
+        }
         sb.append("Total: " + order.getTotal() + " CHF\n");
+
+        // for stamp card number of beverages in order printed
+        sb.append("Beverages included: " + getBeveragesCountInOrder(order) + "\n");
+
+
+
         sb.append("########################\n");
         sb.append("Thanks for your visit\n");
 
         String str = sb.toString();
         System.out.print(str);
 
+    }
+
+    private long getBeveragesCountInOrder(Order order) {
+        return order.getProducts().stream().filter(product -> product.getType() == Product.ProductType.BEVERAGE).count();
     }
 
 
@@ -62,6 +75,7 @@ public class Store {
             List<Extras> extrasList  = order.getExtras();
             if(extrasList.size()>0) {
                 order.setTotal(order.getTotal()- extrasList.get(0).getPrice());
+                order.setDiscountedExtras(extrasList.get(0));
             }
 
         }
@@ -83,7 +97,6 @@ public class Store {
                 order.addProduct(products.get(product));
             }
         }
-
     }
 
 

@@ -7,6 +7,7 @@ public class Order {
     Double total = 0.0;
     List<Product> products = new ArrayList();
     List<Extras> extras = new ArrayList();
+    Extras discountedExtras;
     String customer;
 
 
@@ -48,5 +49,13 @@ public class Order {
 
     public void setCustomer(String customer) {
         this.customer = customer;
+    }
+
+    public Extras getDiscountedExtras() {
+        return discountedExtras;
+    }
+
+    public void setDiscountedExtras(Extras discountedExtras) {
+        this.discountedExtras = discountedExtras;
     }
 }
