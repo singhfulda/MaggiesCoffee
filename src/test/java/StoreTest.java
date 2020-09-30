@@ -35,5 +35,20 @@ public class StoreTest {
 
     }
 
+    @Test
+    public void testWhenStoreOrderHasBeverageAndSnackThenExtrasIsFree() {
+        // Given
+        Store store = new Store();
+
+        // When
+        store.processOrder("large coffee with cold milk, small coffee with special roast, bacon roll");
+
+        // Then
+        Order afterProcessingOrder = store.getOrder();
+        Assert.assertEquals(new Double(0.3), afterProcessingOrder.getDiscountedExtras().getPrice());
+        Assert.assertEquals(new Double(9.45), afterProcessingOrder.getTotal());
+
+    }
+
 
 }
