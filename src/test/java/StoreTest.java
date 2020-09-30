@@ -17,4 +17,9 @@ public class StoreTest {
 
     }
 
+    @Test
+    public void testWhenOrderIsEnteredStoreShouldPrintAReciept() {
+
+    }
+
 }
