@@ -1,6 +1,6 @@
 package com.maggies.domain;
 
-public class Extras extends MenuItem{
+public class Extras {
     String name;
     Double price;
 
